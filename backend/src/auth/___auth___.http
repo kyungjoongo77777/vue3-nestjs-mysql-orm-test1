@@ -1,0 +1,29 @@
+### todo: insert user
+POST http://localhost:8000/user/createUserWithEncryptPassword
+Content-Type: application/json
+
+{
+    "userId": "justin2",
+    "userPwd": "1114"
+}
+
+
+### todo: 로그인
+
+POST http://localhost:8000/auth/login
+Content-Type: application/json
+
+{
+  "userId": "justin2",
+  "userPwd": "1114"
+}
+
+
+###todo:  토큰으로 해당 유저를 조회
+#
+#POST http://localhost:8000/auth/getUserInfo
+#Content-Type: application/json
+#Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODMwMjI0ODd9.7quxdEWI583MjGDqO8pK1uu_fU_s27CDjecOc0qTnas
+
+
+###

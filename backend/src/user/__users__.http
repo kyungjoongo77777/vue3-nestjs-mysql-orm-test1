@@ -1,0 +1,26 @@
+POST http://localhost:8000/user
+Content-Type: application/json
+
+{
+    "userId": "slfkdsf234234324",
+    "userPwd":"slfkdsf",
+    "fullName": "slfkdsf",
+    "companyName": "slfkdsf"
+}
+
+###
+
+GET http://localhost:8000/user
+Accept: application/json
+
+###
+POST http://localhost:8000/user/createUser2
+Content-Type: application/json
+
+{
+    "userId": "kyungjoon_justin_go",
+    "userPwd":"1114",
+    "fullName": "kyungjoon_justin_go",
+    "companyName": "kyungjoon_justin_go"
+}
+

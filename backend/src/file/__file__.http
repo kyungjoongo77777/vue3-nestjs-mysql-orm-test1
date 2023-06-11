@@ -1,0 +1,33 @@
+#### todo;  api fetch with accessToken
+#### todo;  api fetch with accessToken
+#### todo;  api fetch with accessToken
+
+GET http://localhost:8000/file
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJreXVuZ2pvb25fanVzdGluX2dvIiwic3ViIjpudWxsLCJpYXQiOjE2ODYzOTE0NDh9.cnLGl74qlOlL0y5SAPYFW93vl8XJVFIIY_beuTB_GCU
+
+
+####
+
+PUT http://localhost:8000/file/4
+Content-Type: application/json
+
+{
+    "owners": "kyungjoongo, denise77, LEEJAIKE"
+
+}
+
+
+### DELETE
+
+DELETE http://localhost:8000/file/11
+
+### PUT
+
+PUT http://localhost:8000/files/1
+Content-Type: application/json
+
+{
+    "isTrash": true
+}
+
