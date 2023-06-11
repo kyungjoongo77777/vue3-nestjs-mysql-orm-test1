@@ -1,4 +1,4 @@
-### Backend 기술 스택 (루트 폴더에 /backend에 위치) 및 앱 실행.
+### Backend 기술 스택 (루트 폴더에 /backend에 위치) 및 앱 실행.(node v16이상에서 실행가능)
 
 - nestjs 9 (angular inspired express, fastify wrapper)
 - typeORM, mysql
