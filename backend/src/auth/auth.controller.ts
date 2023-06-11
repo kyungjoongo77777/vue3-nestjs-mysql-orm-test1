@@ -1,4 +1,4 @@
-import { Body, Controller, Headers, HttpException, HttpStatus, Post, Req } from "@nestjs/common";
+import { Body, Controller, HttpException, HttpStatus, Post, Req } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { JwtService } from "@nestjs/jwt";
 import { UserDto } from "../user/user.dto";
@@ -16,10 +16,8 @@ export class AuthController {
      */
     @Post("/login")
     async login(@Body() userDto: UserDto): Promise<any> {
-        let result = await this.authService.loginAndResponseAccessToken(userDto.userId, userDto.userPwd);
-        return result;
+        return await this.authService.loginAndResponseAccessToken(userDto.userId, userDto.userPwd);
     }
-
     /**
      * todo:   fetch userInfo with accessToken
      * @param req
