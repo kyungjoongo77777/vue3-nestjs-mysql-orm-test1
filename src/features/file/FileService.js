@@ -20,7 +20,6 @@ export const useFileService = createGlobalObservable(() => {
         totalFileSize: 0,
         readableTotalFileSize: 0,
         folderList: [],
-        my_mergedList: [],
         currentUserId: undefined,
         currentFolderName: "/",
         currentFileId: undefined,

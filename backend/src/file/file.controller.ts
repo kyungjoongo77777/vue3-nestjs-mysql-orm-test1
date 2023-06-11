@@ -45,7 +45,7 @@ export class FileController {
     @UseInterceptors(FilesInterceptor("file", 20, {
         storage: diskStorage({
             destination: FILE_UPLOAD_DIR,
-            filename(req, file, callback) {             //파일명
+            filename(req, file, callback) {
                 const ext = extname(file.originalname); // 오리지널 네임의 확장자 추출
                 const uniqueBaseFilename = Math.random().toString(36).substring(2, 15) + Math.random().toString(23).substring(2, 5);
                 callback(null, new Date().getTime() + "_" + uniqueBaseFilename + ext);  //에러처리, 파일명항목(베이스네임+날짜+확장자)
