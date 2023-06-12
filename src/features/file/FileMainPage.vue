@@ -12,7 +12,7 @@
                  style="justify-content: center;display: flex;align-items: center; width: 900px;">
                 No Data In My Folder
             </div>
-            <div v-for="(item, index) in fileService.myFileResults">
+            <div v-for="(item, index) in fileService.myFileResults" :key="index.toString()">
                 <FileFolderOne
                     :filename="item.fileName"
                     :filetype="item.fileType"
@@ -103,6 +103,7 @@ import FileFolderOne from "@/features/file/FileFolderOne.vue";
 import { onMounted } from "vue";
 import ShareModal from "@/components/ShareModal.vue";
 import FolderCreattionModal from "@/components/FolderCreationModal.vue";
+
 
 const router = useRouter();
 const fileService = useFileService();
