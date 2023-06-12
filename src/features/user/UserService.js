@@ -61,7 +61,7 @@ export const useUserService = createGlobalObservable(() => {
                 let results = await axiosInstance.post(END_POINT_PREFIX + "/user/createUserWithEncryptPassword", userInfo);
                 //console.log("results===>", results);
                 if (results.data.statusCode === 200) {
-                    sharedService.value.showToast("가입 완료, 잠시후 로그인 페이지로 이동.!");
+                    sharedService.value.showToast("가입 완료, 로그인 해주세요!!");
                     return true;
                 } else {
                     sharedService.value.showToast("가입 failed");
