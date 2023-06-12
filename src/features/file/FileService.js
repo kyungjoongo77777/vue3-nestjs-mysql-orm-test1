@@ -44,9 +44,6 @@ export const useFileService = createGlobalObservable(() => {
                     if (!_.isEmpty(fileOne.sharedUsers)) {
                         sharedUserList = fileOne.sharedUsers.split(",");
                     }
-                    if (!_.isEmpty(fileOne.fileSize)) {
-                        _totalFileSize = _totalFileSize + parseInt(fileOne.fileSize);
-                    }
                     //todo: shared_file인 경우에..그리고 shared파일에 자신이 속해있는 경우에..
                     if (sharedUserList.length > 0 && !fileOne.isTrash) {
                         for (let sharedUser of sharedUserList) {
@@ -54,7 +51,10 @@ export const useFileService = createGlobalObservable(() => {
                                 _shareFileList.push(fileOne);
                             }
                         }
-                    } else if (fileOne.owner === this.currentUserId) { //todo: 내파일인 경우에..
+                    } else if (fileOne.owner === this.currentUserId) { //todo: my 파일인 경우에..
+                        if (!_.isEmpty(fileOne.fileSize)) {
+                            _totalFileSize = _totalFileSize + parseInt(fileOne.fileSize);
+                        }
                         if (fileOne.isTrash) {
                             _trashFileList.push(fileOne);
                         } else {

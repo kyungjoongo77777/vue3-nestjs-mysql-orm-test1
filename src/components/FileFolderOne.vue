@@ -1,13 +1,27 @@
 <template>
     <a-card hoverable class="fileOneOuter">
+        <!--        todo: sharedUsers avatar 표시 부분-->
+        <div style="position: absolute; right: -15px;top:-15px;">
+            <div v-if="sharedUsers!=null">
+                <a-tooltip placement="topLeft" :title="sharedUsers">
+                    <a-avatar-group max-count="7">
+                        <div v-for="(item, index) in sharedUsers.split(',')">
+                            <div style="margin-left: -10px">
+                                <a-avatar style="background-color: #f56a00"> {{ item.substring(0, 2) }}</a-avatar>
+                            </div>
+                        </div>
+                    </a-avatar-group>
+                </a-tooltip>
+            </div>
+        </div>
         <div style="display: flex;flex-direction: row">
             <div style="flex: .9">
                 <div v-if="filetype==='pdf'"
                      style="height: 25px;">
-                    <PdfIcon style="width: 35px;height: 35px;" />
+                    <PdfIcon style="width: 35px;height: 35px;"/>
                 </div>
                 <div v-else-if="filetype==='doc' || filetype==='odt' || filetype==='docx'">
-                    <WordIcon style="width: 35px;height: 35px;" />
+                    <WordIcon style="width: 35px;height: 35px;"/>
                 </div>
                 <div v-else-if="filetype==='png'">
                     <a-image
@@ -27,10 +41,10 @@
                                 {{ folderName }}
                             </div>
                         </div>
-                        <div style="height: 10px" />
+                        <div style="height: 10px"/>
 
-                        <FolderOutlined style="font-size: 150px" />
-                        <Owner :owner="owner" />
+                        <FolderOutlined style="font-size: 150px"/>
+                        <Owner :owner="owner"/>
                     </div>
                 </div>
             </div>
@@ -46,7 +60,7 @@
         <div v-if="filetype==='folder'">
         </div>
         <div v-else>
-            <div style="height: 15px;" />
+            <div style="height: 15px;"/>
             <div style="font-size: 11px;font-weight: 700">
                 {{ filename }}
             </div>
@@ -60,7 +74,7 @@
             <div>
                 size : {{ bytesToSize(fileSize) }}
             </div>
-            <Owner :owner="owner" />
+            <Owner :owner="owner"/>
 
             <!--            todo: sharedUsers-->
             <!--            todo: sharedUsers-->
@@ -99,7 +113,7 @@
                         @confirm="()=>fileService.handleDeleteConfirm()"
                         @cancel="cancel"
                     >
-                        <DeleteOutlined style="font-size: 25px;color: red" />
+                        <DeleteOutlined style="font-size: 25px;color: red"/>
                     </a-popconfirm>
                 </div>
                 <!-- todo: 일반 삭제 아이콘-->
@@ -112,24 +126,24 @@
                             @confirm="()=>fileService.handleDeleteConfirm()"
                             @cancel="cancel"
                         >
-                            <DeleteOutlined style="font-size: 25px" />
+                            <DeleteOutlined style="font-size: 25px"/>
                         </a-popconfirm>
                     </div>
                 </div>
             </a>
-            <div style="width: 60px;" />
+            <div style="width: 60px;"/>
             <!--                todo: ###############-->
             <!--                 todo: shareButton-->
             <!--                todo: ###############-->
             <a href="#" style="flex: .33" @click="handleClickShare(id)">
-                <ShareAltOutlined style="font-size: 25px" />
+                <ShareAltOutlined style="font-size: 25px"/>
             </a>
-            <div style="width: 60px;" />
+            <div style="width: 60px;"/>
             <!--                todo: ###############-->
             <!--                todo: download button-->
             <!--                todo: ###############-->
             <a :href="`${END_POINT_PREFIX}/${filename}`" target="_blank" style="flex: .33">
-                <DownloadOutlined style="font-size: 25px" />
+                <DownloadOutlined style="font-size: 25px"/>
             </a>
         </div>
     </a-card>
@@ -152,12 +166,13 @@
 <script setup>
 import PdfIcon from "@/components/icons/PdfIcon.vue";
 import WordIcon from "@/components/icons/WordIcon.vue";
-import { useFileService } from "@/features/file/FileService";
-import { DeleteOutlined, DownloadOutlined, FolderOutlined, ShareAltOutlined } from "@ant-design/icons-vue";
-import { useSharedService } from "@/features/common/SharedService";
-import { END_POINT_PREFIX } from "@/constants/constants";
+import {useFileService} from "@/features/file/FileService";
+import {DeleteOutlined, DownloadOutlined, FolderOutlined, ShareAltOutlined} from "@ant-design/icons-vue";
+import {useSharedService} from "@/features/common/SharedService";
+import {END_POINT_PREFIX} from "@/constants/constants";
 import Owner from "@/components/Owner.vue";
-import _ from "lodash";
+import _, {split} from "lodash";
+import {onMounted} from "vue";
 
 defineProps({
     filename: {
@@ -204,6 +219,10 @@ defineProps({
     sharedUsers: {
         type: String,
         required: false
+    },
+    sharedUserList: {
+        type: Array,
+        required: false
     }
 });
 const sharedService = useSharedService();
@@ -220,6 +239,10 @@ const handleClickShare = (id) => {
 const handleClickDownload = () => {
     alert("handleClickDownload");
 };
+
+
+onMounted(() => {
+})
 
 function bytesToSize(bytes) {
     const sizes = ["Bytes", "KB", "MB", "GB", "TB"];

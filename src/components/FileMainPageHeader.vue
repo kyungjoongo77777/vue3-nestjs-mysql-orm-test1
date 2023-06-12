@@ -8,7 +8,7 @@
         >
             <div style="flex: .3; margin-left: 10px;flex-direction: row;display: flex">
                 <div>
-                    <a-avatar style="background-color: #f56a00">{{ fileService.currentUserId?.substring(0, 1) }}
+                    <a-avatar style="background-color: #f56a00">{{ fileService.currentUserId?.substring(0, 2) }}
                     </a-avatar>
                 </div>
                 <div
