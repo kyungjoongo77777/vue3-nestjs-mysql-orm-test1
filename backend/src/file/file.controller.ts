@@ -27,14 +27,12 @@ export class FileController {
     }
 
     @Get()
-    async getAllFiles() {
+    async getAll(@Param("owner") owner: string) {
         return {
             statusCode: HttpStatus.OK,
-            data: await this.filesService.showAll()
+            data: await this.filesService.getALl(owner)
         };
     }
-
-
     /**
      * todo; 파일 업로드 route
      * @param request
@@ -62,7 +60,8 @@ export class FileController {
                 fileName: fileOne.filename,
                 createdDt: this.filesService.getCurrentDateTime(),
                 fileSize: fileOne.size,
-                owners: filesDto.owners,
+                owner: filesDto.owner,
+                //sharedUsers: filesDto.owner,
                 fileType: ext,
                 folderName: filesDto.folderName,
                 fileLocation: fileOne.destination,
@@ -89,7 +88,7 @@ export class FileController {
             fileName: paramFileData.fileName,
             createdDt: new Date().toLocaleDateString(),
             fileSize: paramFileData.fileSize,
-            owners: paramFileData.owners,
+            owner: paramFileData.owner,
             fileType: paramFileData.fileType,
             folderName: paramFileData.folderName,
             fileLocation: paramFileData.fileLocation,
@@ -103,8 +102,7 @@ export class FileController {
             data: await this.filesService.uploadOne(_uploadedFileInfo)
         };
     }
-
-    @Get(":id")
+    @Get("/getFileOne/:id")
     async getFileOne(@Param("id") id: number) {
         return {
             statusCode: HttpStatus.OK,

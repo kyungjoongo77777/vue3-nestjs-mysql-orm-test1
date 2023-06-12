@@ -18,10 +18,11 @@
                     :filetype="item.fileType"
                     :fileSize="item.fileSize"
                     :id="item.id"
-                    :owners="item.owners"
+                    :owner="item.owner"
                     :isTrash="item.isTrash"
                     :folderName="item.folderName"
                     :createdDt="item.createdDt"
+                    :sharedUsers="item.sharedUsers"
                 />
             </div>
         </div>
@@ -40,10 +41,11 @@
                     :filetype="item.fileType"
                     :fileSize="item.fileSize"
                     :id="item.id"
-                    :owners="item.owners"
+                    :owner="item.owner"
                     :isTrash="item.isTrash"
                     :folderName="item.folderName"
                     :createdDt="item.createdDt"
+                    :sharedUsers="item.sharedUsers"
                 />
             </div>
         </div>
@@ -64,10 +66,11 @@
                     :filetype="item.fileType"
                     :fileSize="item.fileSize"
                     :id="item.id"
-                    :owners="item.owners"
+                    :owner="item.owner"
                     :isTrash="item.isTrash"
                     :folderName="item.folderName"
                     :createdDt="item.createdDt"
+                    :sharedUsers="item.sharedUsers"
                 />
             </div>
         </div>
@@ -96,7 +99,7 @@
 import { useRouter } from "vue-router";
 import { useFileService } from "@/features/file/FileService";
 import PortalHeader from "@/components/FileMainPageHeader.vue";
-import FileFolderOne from "@/components/FileFolderOne.vue";
+import FileFolderOne from "@/features/file/FileFolderOne.vue";
 import { onMounted } from "vue";
 import ShareModal from "@/components/ShareModal.vue";
 import FolderCreattionModal from "@/components/FolderCreationModal.vue";

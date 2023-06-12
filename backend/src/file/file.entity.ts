@@ -19,7 +19,10 @@ export class FileEntity {
     fileSize: string;
 
     @Column()
-    owners: string;
+    owner: string;
+
+    @Column({ nullable: true, default: null })
+    sharedUsers: string;
 
     @Column()
     fileType: string;

@@ -169,13 +169,6 @@ const handleLogout = () => {
 function handleTabClick(tabIndex) {
     fileService.value.tabIndex = tabIndex;
 
-    //todo: reset checkItems..
-    let _tempChkList = [];
-    for (let itemOne of fileService.value.checkboxList) {
-        itemOne = false;
-        _tempChkList.push(itemOne);
-    }
-    fileService.value.checkboxList = _tempChkList;
 }
 
 

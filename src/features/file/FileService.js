@@ -4,7 +4,7 @@ import { toJS } from "mobx";
 import { useUserService } from "@/features/user/UserService";
 import { useSharedService } from "@/features/common/SharedService";
 import { END_POINT_PREFIX } from "@/constants/constants";
-import _ from "lodash";
+import _, { isEmpty } from "lodash";
 import { useToast } from "vue-toast-notification";
 import { axiosInstance } from "@/utils/utils";
 
@@ -14,14 +14,13 @@ export const useFileService = createGlobalObservable(() => {
         myFileResults: [],
         sharedResults: [],
         trashResults: [],
-        checkboxList: [],
         isChecked: false,
         deleteItemCount: 0,
         totalFileSize: 0,
         readableTotalFileSize: 0,
         folderList: [],
         my_mergedList: [],
-        currentUserId: undefined,
+        currentUserId: "",
         currentFolderName: "/",
         currentFileId: undefined,
         showModal: false,
@@ -35,41 +34,42 @@ export const useFileService = createGlobalObservable(() => {
          */
         async getFileList() {
             const sharedService = useSharedService();
-            let results = await axiosInstance.get(END_POINT_PREFIX + "/file");
+            let results = await axiosInstance.get(`${END_POINT_PREFIX}/file`);
             if (results.data.statusCode === 200) {
-                let fileList = results.data.data;
+                let allFileList = results.data.data;
+                console.log("allFileList===>", allFileList);
                 let _myFileList = [];
                 let _shareFileList = [];
                 let _trashFileList = [];
                 let _totalFileSize = 0;
-                for (let fileOne of fileList) {
-                    let ownerList = fileOne.owners.split(",");
-                    for (let ownerOne of ownerList) {
-                        if (ownerOne === this.currentUserId) {
-                            if (!_.isEmpty(fileOne.fileSize)) {
-                                let _fileSizeOne = parseInt(fileOne.fileSize);
-                                _totalFileSize = _totalFileSize + parseInt(fileOne.fileSize);
-                            }
-                            if (ownerList.length === 1) {
-                                if (!fileOne.isTrash) {
-                                    _myFileList.push(fileOne);
-                                } else {
-                                    _trashFileList.push(fileOne);
-                                }
-                            } else {
+                for (let fileOne of allFileList) {
+                    let sharedUserList = [];
+                    if (!_.isEmpty(fileOne.sharedUsers)) {
+                        sharedUserList = fileOne.sharedUsers.split(",");
+                    }
+                    if (!_.isEmpty(fileOne.fileSize)) {
+                        _totalFileSize = _totalFileSize + parseInt(fileOne.fileSize);
+                    }
+                    //todo: shared_file인 경우에..그리고 shared파일에 자신이 속해있는 경우에..
+                    if (sharedUserList.length > 0) {
+                        for (let sharedUser of sharedUserList) {
+                            if (sharedUser === this.currentUserId) {
                                 _shareFileList.push(fileOne);
                             }
+                        }
+                    } else if (fileOne.owner === this.currentUserId) { //todo: 내파일인 경우에..
+                        if (fileOne.isTrash) {
+                            _trashFileList.push(fileOne);
+                        } else {
+                            _myFileList.push(fileOne);
                         }
                     }
                 }
                 this.myFileResults = _myFileList;
                 this.sharedResults = _shareFileList;
                 this.trashResults = _trashFileList;
-                let tempCheckList = [];
-                for (let itemOne of _trashFileList) {
-                    tempCheckList.push(false);
-                }
-                this.checkboxList = tempCheckList;
+                console.log("_myFileList===>", _myFileList);
+                console.log("sharedResults===>", _shareFileList);
                 this.totalFileSize = _totalFileSize;
                 this.readableTotalFileSize = sharedService.value.bytesToSize(_totalFileSize);
                 this.deleteItemCount = 0;
@@ -148,24 +148,35 @@ export const useFileService = createGlobalObservable(() => {
          * @returns {Promise<boolean>}
          */
         async shareFileOne() {
+
             const userService = useUserService();
             const sharedService = useSharedService();
 
-            let resultOne = await axiosInstance.get(`${END_POINT_PREFIX}/file/${this.currentFileId}`);
-            let ownerList = resultOne.data.data.owners.split(",");
+            let resultOne = await axiosInstance.get(`${END_POINT_PREFIX}/file/getFileOne/${this.currentFileId}`);
+            let _newSharedUsers = [];
 
-            ownerList.push(userService.value.userToBeShared);
+            //todo shared_user is empty인경우.....
+            if (resultOne.data?.data?.sharedUsers === null) {
+                resultOne.data.data.sharedUsers = undefined;
+                _newSharedUsers.push(this.currentUserId);
+            }
+
+            //todo shared_user가 있는 경우..
+            if (resultOne.data?.data?.sharedUsers !== undefined) {
+                _newSharedUsers = resultOne.data.data.sharedUsers.split(",");
+            }
+            console.log("prevSharedUsers===>", _newSharedUsers);
+            _newSharedUsers.push(userService.value.usersToBeShared);
             //todo: 중복 체크
-            if (!this.checkIfArrayIsUnique(ownerList)) {
+            if (!this.checkIfArrayIsUnique(_newSharedUsers)) {
                 sharedService.value.showToast("이미 공유된 user입니다!");
                 return false;
             } else {
                 //todo: 중복이 안된 경우에만 db update
-                //console.log("add ownerList===>", ownerList.toString());
+                console.log("add _sharedUserList===>", _newSharedUsers.toString());
                 let data = {
-                    "owners": ownerList.toString()
+                    "sharedUsers": _newSharedUsers.toString()
                 };
-
                 let results = await axiosInstance.put(`${END_POINT_PREFIX}/file/${this.currentFileId}`, data);
                 if (results.data.statusCode === 200) {
                     await this.getFileList();
@@ -187,7 +198,7 @@ export const useFileService = createGlobalObservable(() => {
                 fileName: "",
                 createdDt: "",
                 fileSize: "",
-                owners: localStorage.getItem("userId"),
+                owner: localStorage.getItem("userId"),
                 fileType: "folder",
                 folderName: folderName,
                 fileLocation: "",
@@ -227,9 +238,7 @@ export const useFileService = createGlobalObservable(() => {
          * @returns {Promise<void>}
          */
         async handleDeleteConfirm() {
-            if (this.tabIndex === 1) {
-                alert("공유된 파일은 삭제 불가능합니다");
-            } else if (this.tabIndex === 0) {
+            if (this.tabIndex === 0 || this.tabIndex === 1) {
                 //todo: 휴지통에 이동하는 로직
                 await this.updateFileOne({
                     isTrash: true

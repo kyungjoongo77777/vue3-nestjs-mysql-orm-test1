@@ -5,12 +5,13 @@ import { useRouter } from "vue-router";
 import { useSharedService } from "@/features/common/SharedService";
 import { useToast } from "vue-toast-notification";
 import { axiosInstance } from "@/utils/utils";
+import { useFileService } from "@/features/file/FileService";
 
 export const useUserService = createGlobalObservable(() => {
     return useLocalObservable(() => ({
         count: 0,
         results: [],
-        userToBeShared: undefined,
+        usersToBeShared: undefined,
         /**
          * todo:  fetch  all user
          * @returns {Promise<void>}
@@ -20,6 +21,25 @@ export const useUserService = createGlobalObservable(() => {
             let results = await axiosInstance.get(`${END_POINT_PREFIX}/user`);
             if (results.data.statusCode === 200) {
                 this.results = results.data.data;
+            } else {
+                alert("xhr fetch 실패");
+            }
+            setTimeout(() => {
+                this.loading = false;
+            }, 250);
+        },
+        async getSharedUsers() {
+            this.loading = true;
+            const fileService = useFileService();
+            let results = await axiosInstance.get(`${END_POINT_PREFIX}/user`);
+            if (results.data.statusCode === 200) {
+                let _sharedUsers = [];
+                for (let item of results.data.data) {
+                    if (item.userId !== fileService.value.currentUserId) {
+                        _sharedUsers.push(item);
+                    }
+                }
+                this.results = _sharedUsers;
             } else {
                 alert("xhr fetch 실패");
             }

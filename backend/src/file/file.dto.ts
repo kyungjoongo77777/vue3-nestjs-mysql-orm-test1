@@ -4,7 +4,8 @@ export interface FileDto {
     fileName: string;
     createdDt: string;
     fileSize: string;
-    owners: string;
+    owner: string;
+    sharedUsers?: string;
     fileType: string;
     fileLocation: string;
     folderName: string;

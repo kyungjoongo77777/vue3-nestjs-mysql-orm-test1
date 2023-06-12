@@ -5,7 +5,7 @@ export const useSharedService = createGlobalObservable(() => {
     return useLocalObservable(() => ({
         results: [],
         loading: false,
-        charLength: 33,
+        charLength: 20,
         showToast(msg, duration = 1500) {
             const toast = useToast();
             toast.warning(msg, {

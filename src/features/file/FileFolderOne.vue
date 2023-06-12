@@ -30,7 +30,7 @@
                         <div style="height: 10px" />
 
                         <FolderOutlined style="font-size: 150px" />
-                        <Owners :owners="owners" />
+                        <Owner :owner="owner" />
                     </div>
                 </div>
             </div>
@@ -38,14 +38,14 @@
             <div style="flex: .1; margin-right: -12px">
                 <div v-if="fileService.tabIndex===2">
                     <a-checkbox @change="handleClickCheckbox(index)"
-                                v-model:checked="fileService.checkboxList[index]"></a-checkbox>
+                    ></a-checkbox>
                 </div>
             </div>
         </div>
 
         <div v-if="filetype==='folder'">
-            <div>
-            </div>
+            <DIV>
+            </DIV>
         </div>
         <div v-else>
             <div style="height: 15px;" />
@@ -62,7 +62,24 @@
             <div>
                 size : {{ bytesToSize(fileSize) }}
             </div>
-            <Owners :owners="owners" />
+            <Owner :owner="owner" />
+
+            <!--            todo: sharedUsers-->
+            <!--            todo: sharedUsers-->
+            <!--            todo: sharedUsers-->
+            <div v-if="sharedUsers !== null">
+                <div style="display: flex;flex-direction: row">
+                    공유자들 :&nbsp;
+                    <div v-if="sharedUsers.length > sharedService.charLength">
+                        <a-tooltip placement="topLeft" :title="sharedUsers">
+                            {{ sharedUsers.substring(0, sharedService.charLength) + "..." }}
+                        </a-tooltip>
+                    </div>
+                    <div v-else>
+                        {{ sharedUsers }}
+                    </div>
+                </div>
+            </div>
         </div>
         <div
             style="position: absolute;bottom: 18px;margin-left: 19px;
@@ -76,7 +93,7 @@
                 <!--                todo: ###############-->
                 <!--                todo: 완전 삭제 아이콘-->
                 <!--                todo: ###############-->
-                <div v-if="fileService.tabIndex===2" @click="setFileId(id)">
+                <div v-if="fileService.tabIndex===2" @click="setFileId(id, owner)">
                     <a-popconfirm
                         title="완전히 삭제하기를 원하십니까?(완전 삭제는 복구가 불가능합니다)"
                         ok-text="네"
@@ -87,32 +104,29 @@
                         <DeleteOutlined style="font-size: 25px;color: red" />
                     </a-popconfirm>
                 </div>
-                <!--                todo: ###############-->
-                <!--                todo: 일반 삭제 아이콘-->
-                <!--                todo: ###############-->
-                <div v-else-if="fileService.tabIndex===1" @click="setFileId(id)">
-                    <DeleteOutlined style="font-size: 25px" />
-                </div>
-                <div v-else @click="setFileId(id)">
-                    <a-popconfirm
-                        title="진짜로 삭제 하실래요????"
-                        ok-text="네"
-                        cancel-text="아니오"
-                        @confirm="()=>fileService.handleDeleteConfirm()"
-                        @cancel="cancel"
-                    >
-                        <DeleteOutlined style="font-size: 25px" />
-                    </a-popconfirm>
+                <!-- todo: 일반 삭제 아이콘-->
+                <div v-else @click="setFileId(id, owner)">
+                    <div v-if="owner === fileService.currentUserId">
+                        <a-popconfirm
+                            title="진짜로 삭제 하실래요?"
+                            ok-text="네"
+                            cancel-text="아니오"
+                            @confirm="()=>fileService.handleDeleteConfirm()"
+                            @cancel="cancel"
+                        >
+                            <DeleteOutlined style="font-size: 25px" />
+                        </a-popconfirm>
+                    </div>
                 </div>
             </a>
-            <div style="width: 60px;"/>
+            <div style="width: 60px;" />
             <!--                todo: ###############-->
             <!--                 todo: shareButton-->
             <!--                todo: ###############-->
             <a href="#" style="flex: .33" @click="handleClickShare(id)">
                 <ShareAltOutlined style="font-size: 25px" />
             </a>
-            <div style="width: 60px;"/>
+            <div style="width: 60px;" />
             <!--                todo: ###############-->
             <!--                todo: download button-->
             <!--                todo: ###############-->
@@ -144,8 +158,8 @@ import { useFileService } from "@/features/file/FileService";
 import { DeleteOutlined, DownloadOutlined, FolderOutlined, ShareAltOutlined } from "@ant-design/icons-vue";
 import { useSharedService } from "@/features/common/SharedService";
 import { END_POINT_PREFIX } from "@/constants/constants";
-import Owners from "@/components/Owners.vue";
-
+import Owner from "@/components/Owner.vue";
+import _ from "lodash";
 
 defineProps({
     filename: {
@@ -164,7 +178,7 @@ defineProps({
         type: Number,
         required: true
     },
-    owners: {
+    owner: {
         type: String,
         required: true
     }
@@ -186,15 +200,19 @@ defineProps({
         required: false
     },
     createdDt: {
-        type: Array,
+        type: String,
+        required: true
+    },
+    sharedUsers: {
+        type: String,
         required: true
     }
 });
 const sharedService = useSharedService();
 
-const setFileId = (id) => {
+const setFileId = (id, ownerOne) => {
     if (fileService.value.tabIndex === 1) {
-        sharedService.value.showToast("공유된 파일은 삭제할수 없어요!");
+        //todo:
     } else {
         fileService.value.currentFileId = id;
     }

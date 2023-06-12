@@ -24,9 +24,11 @@ export class FileService {
         return `${(bytes / (1024 ** i)).toFixed(1)} ${sizes[i]}`;
     }
 
+    async getALl(ownerOne: string) {
 
-    async showAll() {
-        return await this.filesRepository.find();
+        let _result = await this.filesRepository.find();
+
+        return _result;
     }
 
     async uploadOne(fileDto: FileDto) {
@@ -37,7 +39,10 @@ export class FileService {
 
 
     async read(id: number) {
-        return await this.filesRepository.findOne({ where: { id: id } });
+
+        let result = await this.filesRepository.findOne({ where: { id: id } });
+
+        return result;
     }
 
     async update(id: number, fileDto: Partial<FileDto>) {
@@ -48,33 +53,6 @@ export class FileService {
     async destroy(id: number) {
         await this.filesRepository.delete({ id });
         return { deleted: true };
-    }
-    async getFileSizeByOwner(filesDto: FileDto) {
-        let currentUserId = filesDto.owners;
-        let fileList = await this.filesRepository.find();
-
-        let currentUserFileList = [];
-        let totalFileSize = 0;
-        for (let fileOne of fileList) {
-            let ownerList = fileOne.owners.split(",");
-            for (let ownerOne of ownerList) {
-                if (ownerOne === currentUserId) {
-                    currentUserFileList.push(fileOne);
-                    console.log("fileSize===>", parseInt(fileOne.fileSize));
-                    if (!_.isEmpty(fileOne.fileSize)) {
-                        let _fileSizeOne = parseInt(fileOne.fileSize);
-                        totalFileSize = totalFileSize + parseInt(fileOne.fileSize);
-                    }
-
-                }
-            }
-        }
-
-        const readableFileSize = this.bytesToSize(totalFileSize)
-        return {
-            readableFileSize,
-            totalFileSize,
-        };
     }
 
 

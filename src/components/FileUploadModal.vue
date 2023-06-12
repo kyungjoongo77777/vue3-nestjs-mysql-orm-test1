@@ -56,7 +56,7 @@ const handleSubmitFile = async (e) => {
         for (let fileOne of files.value) {
             formData.append("file", fileOne);
         }
-        formData.append("owners", fileService.value.currentUserId);
+        formData.append("owner", fileService.value.currentUserId);
         formData.append("folderName", fileService.value.currentFolderName);
         formData.append("isFolder", false);
         await fileService.value.insertFiles(formData);

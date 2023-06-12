@@ -6,7 +6,7 @@
         ok-text="share"
         v-model:visible="fileService.showShareModal" title="해당 자료를 공유 할사람을 선택하시오!"
 
-        @ok="handleClickShare"
+        @ok="handleShare"
     >
         <div style="margin:10px;">
             <a-dropdown-button>
@@ -26,7 +26,7 @@
                 </template>
                 <div style="height: 15px;" />
                 <div style="display: flex;flex-direction: row; margin-left: -16px;">
-                    <a-input v-model:value="userService.userToBeShared" placeholder="" style="width: 250px;color: navy"
+                    <a-input v-model:value="userService.usersToBeShared" placeholder="" style="width: 250px;color: navy"
                              disabled
                     />
                 </div>
@@ -58,15 +58,15 @@ const handleOnchangeFile = async (event) => {
 };
 
 onMounted(() => {
-    userService.value.getUsers();
+    userService.value.getSharedUsers();
 });
 
 const handleMenuClick = (e) => {
-    userService.value.userToBeShared = e.key;
+    userService.value.usersToBeShared = e.key;
 
 };
 
-const handleClickShare = async (e) => {
+const handleShare = async (e) => {
     await fileService.value.shareFileOne();
 };
 
