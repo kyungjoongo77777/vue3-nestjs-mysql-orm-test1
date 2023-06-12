@@ -203,7 +203,7 @@ defineProps({
     },
     sharedUsers: {
         type: String,
-        required: true
+        required: false
     }
 });
 const sharedService = useSharedService();
