@@ -35,7 +35,6 @@ export const useFileService = createGlobalObservable(() => {
             let results = await axiosInstance.get(`${END_POINT_PREFIX}/file`);
             if (results.data.statusCode === 200) {
                 let allFileList = results.data.data;
-                console.log("allFileList===>", allFileList);
                 let _myFileList = [];
                 let _shareFileList = [];
                 let _trashFileList = [];
@@ -66,8 +65,6 @@ export const useFileService = createGlobalObservable(() => {
                 this.myFileResults = _myFileList;
                 this.sharedResults = _shareFileList;
                 this.trashResults = _trashFileList;
-                console.log("_myFileList===>", _myFileList);
-                console.log("sharedResults===>", _shareFileList);
                 this.totalFileSize = _totalFileSize;
                 this.readableTotalFileSize = sharedService.value.bytesToSize(_totalFileSize);
                 this.deleteItemCount = 0;
@@ -163,7 +160,6 @@ export const useFileService = createGlobalObservable(() => {
             if (resultOne.data?.data?.sharedUsers !== undefined) {
                 _newSharedUsers = resultOne.data.data.sharedUsers.split(",");
             }
-            console.log("prevSharedUsers===>", _newSharedUsers);
             _newSharedUsers.push(userService.value.usersToBeShared);
             //todo: 중복 체크
             if (!this.checkIfArrayIsUnique(_newSharedUsers)) {
@@ -171,7 +167,6 @@ export const useFileService = createGlobalObservable(() => {
                 return false;
             } else {
                 //todo: 중복이 안된 경우에만 db update
-                console.log("add _sharedUserList===>", _newSharedUsers.toString());
                 let data = {
                     "sharedUsers": _newSharedUsers.toString()
                 };
