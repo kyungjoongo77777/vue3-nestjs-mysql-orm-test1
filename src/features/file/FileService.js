@@ -1,10 +1,8 @@
 import { createGlobalObservable, useLocalObservable } from "mobx-vue-lite";
-import axios from "axios";
-import { toJS } from "mobx";
 import { useUserService } from "@/features/user/UserService";
 import { useSharedService } from "@/features/common/SharedService";
 import { END_POINT_PREFIX } from "@/constants/constants";
-import _, { isEmpty } from "lodash";
+import _ from "lodash";
 import { useToast } from "vue-toast-notification";
 import { axiosInstance } from "@/utils/utils";
 

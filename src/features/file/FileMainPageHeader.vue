@@ -7,7 +7,7 @@
             flex-direction: row; padding: 0px"
         >
             <div style="flex: .3; margin-left: 40px;flex-direction: row;display: flex">
-                <div style="flex: .4">
+                <div style="flex: .4; color: lightpink">
                     {{ fileService.currentUserId }}
                 </div>
                 <div style="flex: .1"></div>
