@@ -82,7 +82,7 @@ async function handleClickSubmit() {
     if (result) {
         setTimeout(async () => {
             await router.push("/LogInPage");
-        }, 1500);
+        }, 250);
     }
 }
 
