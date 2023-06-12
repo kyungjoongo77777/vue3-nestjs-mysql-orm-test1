@@ -168,7 +168,14 @@ const handleLogout = () => {
 
 function handleTabClick(tabIndex) {
     fileService.value.tabIndex = tabIndex;
-
+    //todo: tab변경시 checked_item 초기화
+    fileService.value.deleteItemCount = 0;
+    let _trashResults = [];
+    for (let itemOne of fileService.value.trashResults) {
+        itemOne.checked = false;
+        _trashResults.push(itemOne);
+    }
+    fileService.value.trashResults = _trashResults;
 }
 
 

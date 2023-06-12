@@ -44,8 +44,6 @@
         </div>
 
         <div v-if="filetype==='folder'">
-            <DIV>
-            </DIV>
         </div>
         <div v-else>
             <div style="height: 15px;" />
@@ -211,11 +209,7 @@ defineProps({
 const sharedService = useSharedService();
 
 const setFileId = (id, ownerOne) => {
-    if (fileService.value.tabIndex === 1) {
-        //todo:
-    } else {
-        fileService.value.currentFileId = id;
-    }
+    fileService.value.currentFileId = id;
 };
 
 const handleClickShare = (id) => {
