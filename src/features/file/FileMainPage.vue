@@ -98,8 +98,8 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { useFileService } from "@/features/file/FileService";
-import PortalHeader from "@/features/file/FileMainPageHeader.vue";
-import FileFolderOne from "@/features/file/FileFolderOne.vue";
+import PortalHeader from "@/components/FileMainPageHeader.vue";
+import FileFolderOne from "@/components/FileFolderOne.vue";
 import { onMounted } from "vue";
 import ShareModal from "@/components/ShareModal.vue";
 import FolderCreattionModal from "@/components/FolderCreationModal.vue";
