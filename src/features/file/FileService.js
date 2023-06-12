@@ -1,4 +1,3 @@
-// @flow
 import { createGlobalObservable, useLocalObservable } from "mobx-vue-lite";
 import { useUserService } from "@/features/user/UserService";
 import { useSharedService } from "@/features/common/SharedService";
@@ -6,8 +5,6 @@ import { END_POINT_PREFIX } from "@/constants/constants";
 import _ from "lodash";
 import { useToast } from "vue-toast-notification";
 import { axiosInstance } from "@/utils/utils";
-import { TypeFileOne } from "@/features/types/types";
-
 
 export const useFileService = createGlobalObservable(() => {
     return useLocalObservable(() => ({
@@ -43,8 +40,7 @@ export const useFileService = createGlobalObservable(() => {
                 let _shareFileList = [];
                 let _trashFileList = [];
                 let _totalFileSize = 0;
-                for (let fileOne: TypeFileOne of allFileList) {
-
+                for (let fileOne of allFileList) {
                     let sharedUserList = [];
                     if (!_.isEmpty(fileOne.sharedUsers)) {
                         sharedUserList = fileOne.sharedUsers.split(",");
