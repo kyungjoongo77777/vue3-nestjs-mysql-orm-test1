@@ -9,7 +9,7 @@
 
 ---
 
-### localhost mysql 접속 정보 (실행전에 다음으로 접속이 가능해야됨) 
+### localhost mysql 접속 정보 (실행전에 다음으로 접속이 가능해야됨)
 
 <pre><code>
 &nbsp;&nbsp; type: 'mysql' <br/>
@@ -24,6 +24,7 @@
 ### Frontend 기술 스택 (루트 폴더에 위치) 및 앱 실행 (node v14 이상에서  가능)
 
 - vue 3 ( Composition API 방식으로 코드 작성)
+- flow 사용 ( javascript에서 typescript와 같이 타입 체킹을 위해) - https://flow.org
 - mobx,mobx-lite-vue (글로벌 상태 관리 )
 - antd,ant-design-vue ( ui design system )
 - vite (build tools, fast!)

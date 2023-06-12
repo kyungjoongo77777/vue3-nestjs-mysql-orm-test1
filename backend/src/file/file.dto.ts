@@ -9,6 +9,6 @@ export interface FileDto {
     fileType: string;
     fileLocation: string;
     folderName: string;
-    isFolder: boolean,
-    isTrash: false,
+    isFolder: boolean;
+    isTrash: false;
 }
