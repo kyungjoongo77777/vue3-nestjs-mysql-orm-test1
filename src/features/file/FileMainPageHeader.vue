@@ -6,12 +6,18 @@
             display: flex;height: 50px; align-self: center;align-items: center;
             flex-direction: row; padding: 0px"
         >
-            <div style="flex: .3; margin-left: 40px;flex-direction: row;display: flex">
-                <div style="flex: .4; color: lightpink">
+            <div style="flex: .3; margin-left: 10px;flex-direction: row;display: flex">
+                <div>
+                    <a-avatar style="background-color: #f56a00">{{ fileService.currentUserId?.substring(0, 1) }}
+                    </a-avatar>
+                </div>
+                <div
+                    style="flex: .4;margin-left: 15px;  align-self: center; justify-content: center; align-items: center">
                     {{ fileService.currentUserId }}
                 </div>
                 <div style="flex: .1"></div>
-                <div style="flex: .7;font-size: 11px">
+                <div style="flex: .7;font-size: 11px; align-self: center; justify-content: center; align-items: center"
+                >
                     사용용량: {{ (fileService.readableTotalFileSize) === "n/a" ? 0 : fileService.readableTotalFileSize }} /
                     20MB
                 </div>
