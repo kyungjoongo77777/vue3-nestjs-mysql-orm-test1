@@ -8,7 +8,7 @@
         v-model:visible="fileService.showModal" title="업로드할 파일을 선택 하세요" @ok="handleSubmitFile">
         <div>
 
-            <div style="height: 3px" />
+            <div style="height: 3px"/>
             <div style="display: flex;flex-direction: row">
                 <div style="display: flex; align-self: center; justify-content: center; align-items: center">
                     파일 선택
@@ -17,13 +17,13 @@
                     <a-input
                         multiple="true"
                         defaultValue=""
-                        id="file_input" type="file" @change="handleOnchangeFile" placeholder="" />
+                        id="file_input" type="file" @change="handleOnchangeFile" placeholder=""/>
                 </div>
             </div>
             <div style="margin-top: 10px;">
                 <div style="color: red; margin-top: 0px; margin-left: 62px;">* 다중 파일 업로드 가능 [최대 20개]</div>
             </div>
-            <br />
+            <br/>
         </div>
     </a-modal>
 </template>
@@ -31,11 +31,11 @@
 <script setup>
 
 
-import { ref } from "vue";
-import { useToast } from "vue-toast-notification";
+import {ref} from "vue";
+import {useToast} from "vue-toast-notification";
 
-import { useFileService } from "@/features/file/FileService";
-import { useSharedService } from "@/features/common/SharedService";
+import {useFileService} from "@/features/file/FileService";
+import {useSharedService} from "@/features/common/SharedService";
 
 const fileService = useFileService();
 
@@ -49,8 +49,15 @@ const handleOnchangeFile = async (event) => {
 
 const handleSubmitFile = async (e) => {
     const sharedService = useSharedService();
-    if (parseInt(fileService.value.totalFileSize) > (20 * 1000 * 1000)) {
-        sharedService.value.showToast("전체 파일 용량이 20MB 이상은 업로드 불가능합니다.", 2000);
+
+    let formFileSize = 0;
+    for (let fileOne of files.value) {
+        formFileSize += fileOne.size;
+    }
+
+    let totalFilesize = parseInt(fileService.value.totalFileSize) + parseInt(formFileSize)
+    if (totalFilesize > (20 * 1000 * 1000)) {
+        sharedService.value.showToast("전체 업로드된 파일 용량이 20MB 이상은 업로드 불가능합니다.", 2000);
     } else {
         let formData = new FormData(); // formData 객체를 생성한다.
         for (let fileOne of files.value) {
