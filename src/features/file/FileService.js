@@ -44,7 +44,7 @@ export const useFileService = createGlobalObservable(() => {
                     if (!_.isEmpty(fileOne.sharedUsers)) {
                         sharedUserList = fileOne.sharedUsers.split(",");
                     }
-                    //todo: shared_file인 경우에..그리고 shared파일에 자신이 속해있는 경우에..
+                    //todo: shared_file인 경우에..
                     if (sharedUserList.length > 0 && !fileOne.isTrash) {
                         for (let sharedUser of sharedUserList) {
                             if (sharedUser === this.currentUserId && !fileOne.isTrash) {
