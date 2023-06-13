@@ -104,7 +104,7 @@
         </div>
     </div>
 
-    <UploadModal />
+    <UploadModal/>
 </template>
 <style>
 .deleteDiv {
@@ -123,10 +123,10 @@
 <script setup>
 
 import UploadModal from "@/components/FileUploadModal.vue";
-import { useFileService } from "@/features/file/FileService";
-import { useRouter } from "vue-router";
-import { onBeforeMount } from "vue";
-import { useSharedService } from "@/features/common/SharedService";
+import {useFileService} from "@/features/file/FileService";
+import {useRouter} from "vue-router";
+import {onBeforeMount} from "vue";
+import {useSharedService} from "@/features/common/SharedService";
 
 defineProps({
     title: {

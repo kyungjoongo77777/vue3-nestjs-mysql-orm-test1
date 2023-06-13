@@ -1,6 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 
-@Entity("file",{
+@Entity("file", {
     orderBy: {
         id: "DESC"
     }
@@ -12,6 +12,9 @@ export class FileEntity {
     @Column()
     fileName: string;
 
+    @Column({nullable: true})
+    originalFileName: string;
+
     @Column()
     createdDt: string;
 
@@ -21,7 +24,7 @@ export class FileEntity {
     @Column()
     owner: string;
 
-    @Column({ nullable: true, default: null })
+    @Column({nullable: true, default: null})
     sharedUsers: string;
 
     @Column()

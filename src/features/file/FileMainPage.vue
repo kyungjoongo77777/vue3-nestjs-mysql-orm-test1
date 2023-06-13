@@ -14,6 +14,8 @@
             </div>
             <div v-for="(item, index) in fileService.myFileResults" :key="index.toString()">
                 <FileFolderOne
+                    :index="index"
+                    :item="item"
                     :filename="item.fileName"
                     :filetype="item.fileType"
                     :fileSize="item.fileSize"
@@ -36,6 +38,7 @@
             <div v-for="(item, index) in fileService.sharedResults">
                 <FileFolderOne
                     :index="index"
+                    :item="item"
                     :trashResults="fileService.trashResults"
                     :filename="item.fileName"
                     :filetype="item.fileType"
@@ -61,6 +64,7 @@
             <div v-for="(item, index) in fileService.trashResults">
                 <FileFolderOne
                     :index="index"
+                    :item="item"
                     :trashResults="fileService.trashResults"
                     :filename="item.fileName"
                     :filetype="item.fileType"

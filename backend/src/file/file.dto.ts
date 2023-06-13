@@ -1,7 +1,6 @@
-import { Column } from "typeorm";
-
 export interface FileDto {
     fileName: string;
+    originalFileName?: string;
     createdDt: string;
     fileSize: string;
     owner: string;

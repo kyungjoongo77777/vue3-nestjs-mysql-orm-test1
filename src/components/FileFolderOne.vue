@@ -62,6 +62,9 @@
         <div v-else>
             <div style="height: 15px;"/>
             <div style="font-size: 11px;font-weight: 700">
+                {{ item.originalFileName }}
+            </div>
+            <div style="font-size: 11px;font-weight: 700">
                 {{ filename }}
             </div>
             <div style="font-size: 11px;font-weight: 700">
@@ -182,6 +185,10 @@ defineProps({
     filetype: {
         type: String,
         required: true
+    },
+    item: {
+        type: Map,
+        required: false
     },
     fileSize: {
         type: String,

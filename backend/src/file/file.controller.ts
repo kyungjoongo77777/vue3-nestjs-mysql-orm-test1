@@ -58,6 +58,7 @@ export class FileController {
             const ext = extname(fileOne.originalname).replace(".", "");
             let _uploadedFileInfo: FileDto = {
                 fileName: fileOne.filename,
+                originalFileName : fileOne.originalname,
                 createdDt: this.filesService.getCurrentDateTime(),
                 fileSize: fileOne.size,
                 owner: filesDto.owner,
