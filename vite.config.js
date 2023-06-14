@@ -1,13 +1,18 @@
 import { fileURLToPath, URL } from "node:url";
-
+import { flowPlugin, esbuildFlowPlugin } from '@bunchtogether/vite-plugin-flow';
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 
 import svgLoader from "vite-svg-loader";
+import {vitePluginFlow} from "vite-plugin-flow";
 
-// https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [vue(), svgLoader()],
+    optimizeDeps: {
+        esbuildOptions: {
+            plugins: [esbuildFlowPlugin()]
+        }
+    },
+    plugins: [vue(), svgLoader(), vitePluginFlow()],
     resolve: {
         alias: {
             "@": fileURLToPath(new URL("./src", import.meta.url))
