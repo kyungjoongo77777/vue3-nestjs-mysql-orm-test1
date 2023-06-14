@@ -39,7 +39,31 @@ export class FileService {
             }
         }
 
-        return myFileList;
+        let _myFileList = [];
+        let _shareFileList = [];
+        let _trashFileList = [];
+
+        for (let myFileOne of myFileList) {
+            let sharedUserList = [];
+            if (!_.isEmpty(myFileOne.sharedUsers)) {
+                sharedUserList = myFileOne.sharedUsers.split(",");
+            }
+
+            //todo; 버린 file 인경우..
+            if (myFileOne.isTrash) {
+                _trashFileList.push(myFileOne)
+            } else if (!myFileOne.isTrash && sharedUserList.length > 1) {//todo sharedFile
+                _shareFileList.push(myFileOne)
+            } else {//todo: myFile
+                _myFileList.push(myFileOne)
+            }
+        }
+
+        return {
+            myFileList : _myFileList,
+            shareFileList : _shareFileList,
+            trashFileList : _trashFileList,
+        };
     }
 
     async uploadOne(fileDto: FileDto) {

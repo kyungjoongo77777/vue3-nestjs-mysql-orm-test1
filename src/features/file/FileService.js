@@ -3,10 +3,8 @@ import {createGlobalObservable, useLocalObservable} from "mobx-vue-lite";
 import {useUserService} from "@/features/user/UserService";
 import {useSharedService} from "@/features/common/SharedService";
 import {END_POINT_PREFIX} from "@/constants/constants";
-import _ from "lodash";
 import {useToast} from "vue-toast-notification";
 import {axiosInstance} from "@/utils/utils";
-import type {TypeFileOne} from "@/features/types/types";
 
 export const useFileService = createGlobalObservable(() => {
     return useLocalObservable(() => ({
@@ -39,33 +37,10 @@ export const useFileService = createGlobalObservable(() => {
             let results = await axiosInstance.get(`${END_POINT_PREFIX}/file/` + localStorage.getItem('userId'));
             if (results.data.statusCode === 200) {
                 let allFileList = results.data.data;
-                let _myFileList = [];
-                let _shareFileList = [];
-                let _trashFileList = [];
                 let _totalFileSize = 0;
-
-
-                for (let fileOne: TypeFileOne of allFileList) {
-                    let sharedUserList = [];
-                    if (!_.isEmpty(fileOne.sharedUsers)) {
-                        sharedUserList = fileOne.sharedUsers.split(",");
-                    }
-
-                    //todo; 버린 file 인경우..
-                    if (fileOne.isTrash) {
-                        _trashFileList.push(fileOne)
-                    } else if (!fileOne.isTrash && sharedUserList.length > 1) {//todo sharedFile
-                        _shareFileList.push(fileOne)
-                    } else {//todo: myFile
-                        _myFileList.push(fileOne)
-                    }
-                }
-
-                console.log("_myFileList===>", _myFileList);
-
-                this.myFileResults = _myFileList;
-                this.sharedResults = _shareFileList;
-                this.trashResults = _trashFileList;
+                this.myFileResults = allFileList.myFileList;
+                this.sharedResults = allFileList.shareFileList;
+                this.trashResults = allFileList.trashFileList;
                 this.totalFileSize = _totalFileSize;
                 this.readableTotalFileSize = sharedService.value.bytesToSize(_totalFileSize);
                 this.deleteItemCount = 0;
