@@ -25,15 +25,13 @@ export class FileService {
     }
 
     async getALl(ownerOne: string) {
-
         let allFileList: any = await this.filesRepository.find();
-
-        let myFileList= []
+        let myFileList = []
         for (let i = 0; i < allFileList.length; i++) {
             let sharedUsers = allFileList[i].sharedUsers?.split(",")
             console.log("sharedUsers===>", sharedUsers);
-            if (sharedUsers!==undefined){
-                for ( let j=0 ; j<sharedUsers.length; j++){
+            if (sharedUsers !== undefined) {
+                for (let j = 0; j < sharedUsers.length; j++) {
                     if (sharedUsers[j] === ownerOne) {
                         myFileList.push(allFileList[i]);
                     }
