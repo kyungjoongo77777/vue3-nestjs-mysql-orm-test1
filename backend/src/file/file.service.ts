@@ -1,9 +1,9 @@
-import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import {Injectable} from "@nestjs/common";
+import {InjectRepository} from "@nestjs/typeorm";
+import {Repository} from "typeorm";
 
-import { FileEntity } from "./file.entity";
-import { FileDto } from "./file.dto";
+import {FileEntity} from "./file.entity";
+import {FileDto} from "./file.dto";
 import _ from "lodash";
 
 @Injectable()
@@ -26,9 +26,22 @@ export class FileService {
 
     async getALl(ownerOne: string) {
 
-        let _result = await this.filesRepository.find();
+        let allFileList: any = await this.filesRepository.find();
 
-        return _result;
+        let myFileList= []
+        for (let i = 0; i < allFileList.length; i++) {
+            let sharedUsers = allFileList[i].sharedUsers?.split(",")
+            console.log("sharedUsers===>", sharedUsers);
+            if (sharedUsers!==undefined){
+                for ( let j=0 ; j<sharedUsers.length; j++){
+                    if (sharedUsers[j] === ownerOne) {
+                        myFileList.push(allFileList[i]);
+                    }
+                }
+            }
+        }
+
+        return myFileList;
     }
 
     async uploadOne(fileDto: FileDto) {
@@ -40,19 +53,19 @@ export class FileService {
 
     async read(id: number) {
 
-        let result = await this.filesRepository.findOne({ where: { id: id } });
+        let result = await this.filesRepository.findOne({where: {id: id}});
 
         return result;
     }
 
     async update(id: number, fileDto: Partial<FileDto>) {
-        await this.filesRepository.update({ id }, fileDto);
-        return await this.filesRepository.findOne({ where: { id: id } });
+        await this.filesRepository.update({id}, fileDto);
+        return await this.filesRepository.findOne({where: {id: id}});
     }
 
     async destroy(id: number) {
-        await this.filesRepository.delete({ id });
-        return { deleted: true };
+        await this.filesRepository.delete({id});
+        return {deleted: true};
     }
 
 

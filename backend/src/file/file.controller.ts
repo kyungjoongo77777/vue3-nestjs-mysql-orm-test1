@@ -26,7 +26,7 @@ export class FileController {
     constructor(private filesService: FileService) {
     }
 
-    @Get()
+    @Get(":owner")
     async getAll(@Param("owner") owner: string) {
         return {
             statusCode: HttpStatus.OK,
@@ -61,7 +61,7 @@ export class FileController {
                 createdDt: this.filesService.getCurrentDateTime(),
                 fileSize: fileOne.size,
                 owner: filesDto.owner,
-                //sharedUsers: filesDto.owner,
+                sharedUsers: filesDto.owner,
                 fileType: ext,
                 folderName: filesDto.folderName,
                 fileLocation: fileOne.destination,
@@ -77,7 +77,6 @@ export class FileController {
         };
     }
 
-
     /**
      * todo: 폴더 생성..
      * @param paramFileData
@@ -91,6 +90,7 @@ export class FileController {
             owner: paramFileData.owner,
             fileType: paramFileData.fileType,
             folderName: paramFileData.folderName,
+            sharedUsers: paramFileData.owner,
             fileLocation: paramFileData.fileLocation,
             isFolder: paramFileData.isFolder,
             isTrash: false
