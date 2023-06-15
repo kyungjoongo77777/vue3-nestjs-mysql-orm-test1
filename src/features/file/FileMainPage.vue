@@ -79,7 +79,7 @@
         <!-- todo: ShareModal-->
         <!-- todo: ##########-->
         <ShareModal/>
-        <FolderCreattionModal/>
+        <FolderCreationModal/>
     </div>
 </template>
 <style>
@@ -104,8 +104,7 @@ import PortalHeader from "@/components/FileMainPageHeader.vue";
 import FileFolderOne from "@/components/FileFolderOne.vue";
 import {onMounted} from "vue";
 import ShareModal from "@/components/ShareModal.vue";
-import FolderCreattionModal from "@/components/FolderCreationModal.vue";
-
+import FolderCreationModal from "@/components/FolderCreationModal.vue";
 
 const router = useRouter();
 const fileService = useFileService();
