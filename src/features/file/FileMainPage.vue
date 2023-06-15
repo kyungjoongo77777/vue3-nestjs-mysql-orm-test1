@@ -1,5 +1,6 @@
+// @flow// @flow
 <template>
-    <PortalHeader title="FileMainPage" />
+    <PortalHeader title="FileMainPage"/>
     <div style="margin: 1px 30px 30px 30px; min-height: auto">
         <div v-if="fileService.loading"
              style="display: flex; justify-content: center; margin-top: 20px;height: 110px;">
@@ -77,8 +78,8 @@
         <!-- todo: ##########-->
         <!-- todo: ShareModal-->
         <!-- todo: ##########-->
-        <ShareModal />
-        <FolderCreattionModal />
+        <ShareModal/>
+        <FolderCreattionModal/>
     </div>
 </template>
 <style>
@@ -96,11 +97,12 @@
 </style>
 
 <script setup>
-import { useRouter } from "vue-router";
-import { useFileService } from "@/features/file/FileService";
+
+import {useRouter} from "vue-router";
+import {useFileService} from "@/features/file/FileService";
 import PortalHeader from "@/components/FileMainPageHeader.vue";
 import FileFolderOne from "@/components/FileFolderOne.vue";
-import { onMounted } from "vue";
+import {onMounted} from "vue";
 import ShareModal from "@/components/ShareModal.vue";
 import FolderCreattionModal from "@/components/FolderCreationModal.vue";
 
@@ -109,6 +111,7 @@ const router = useRouter();
 const fileService = useFileService();
 
 onMounted(async () => {
+
     await fileService.value.getFileList();
 });
 

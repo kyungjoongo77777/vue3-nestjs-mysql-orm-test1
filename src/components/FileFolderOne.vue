@@ -4,7 +4,7 @@
         <div style="position: absolute; right: -15px;top:-15px;">
             <div v-if="sharedUsers!=null">
                 <a-tooltip placement="topLeft" :title="sharedUsers">
-                    <a-avatar-group max-count="7">
+                    <a-avatar-group>
                         <div v-for="(item, index) in sharedUsers.split(',')">
                             <div style="margin-left: -10px">
                                 <a-avatar style="background-color: #f56a00"> {{ item.substring(0, 2) }}</a-avatar>

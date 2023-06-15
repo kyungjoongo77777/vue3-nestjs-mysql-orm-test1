@@ -2,7 +2,7 @@
 #### todo;  api fetch with accessToken
 #### todo;  api fetch with accessToken
 
-GET http://localhost:8000/file/jackieLee
+GET http://localhost:8000/file/kyungjoon1
 Accept: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJreXVuZ2pvb25fanVzdGluX2dvIiwic3ViIjpudWxsLCJpYXQiOjE2ODYzOTE0NDh9.cnLGl74qlOlL0y5SAPYFW93vl8XJVFIIY_beuTB_GCU
 

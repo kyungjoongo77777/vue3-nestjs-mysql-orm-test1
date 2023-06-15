@@ -1,10 +1,10 @@
-import { createGlobalObservable, useLocalObservable } from "mobx-vue-lite";
-import { useUserService } from "@/features/user/UserService";
-import { useSharedService } from "@/features/common/SharedService";
-import { END_POINT_PREFIX } from "@/constants/constants";
-import _ from "lodash";
-import { useToast } from "vue-toast-notification";
-import { axiosInstance } from "@/utils/utils";
+// @flow
+import {createGlobalObservable, useLocalObservable} from "mobx-vue-lite";
+import {useUserService} from "@/features/user/UserService";
+import {useSharedService} from "@/features/common/SharedService";
+import {END_POINT_PREFIX} from "@/constants/constants";
+import {useToast} from "vue-toast-notification";
+import {axiosInstance} from "@/utils/utils";
 
 export const useFileService = createGlobalObservable(() => {
     return useLocalObservable(() => ({
@@ -32,39 +32,15 @@ export const useFileService = createGlobalObservable(() => {
          */
         async getFileList() {
             const sharedService = useSharedService();
-            let results = await axiosInstance.get(`${END_POINT_PREFIX}/file`);
+            const userService = useUserService();
+
+            let results = await axiosInstance.get(`${END_POINT_PREFIX}/file/` + localStorage.getItem('userId'));
             if (results.data.statusCode === 200) {
                 let allFileList = results.data.data;
-                let _myFileList = [];
-                let _shareFileList = [];
-                let _trashFileList = [];
                 let _totalFileSize = 0;
-                for (let fileOne of allFileList) {
-                    let sharedUserList = [];
-                    if (!_.isEmpty(fileOne.sharedUsers)) {
-                        sharedUserList = fileOne.sharedUsers.split(",");
-                    }
-                    //todo: shared_file인 경우에..
-                    if (sharedUserList.length > 0 && !fileOne.isTrash) {
-                        for (let sharedUser of sharedUserList) {
-                            if (sharedUser === this.currentUserId && !fileOne.isTrash) {
-                                _shareFileList.push(fileOne);
-                            }
-                        }
-                    } else if (fileOne.owner === this.currentUserId) { //todo: my 파일인 경우에..
-                        if (!_.isEmpty(fileOne.fileSize)) {
-                            _totalFileSize = _totalFileSize + parseInt(fileOne.fileSize);
-                        }
-                        if (fileOne.isTrash) {
-                            _trashFileList.push(fileOne);
-                        } else {
-                            _myFileList.push(fileOne);
-                        }
-                    }
-                }
-                this.myFileResults = _myFileList;
-                this.sharedResults = _shareFileList;
-                this.trashResults = _trashFileList;
+                this.myFileResults = allFileList.myFileList;
+                this.sharedResults = allFileList.shareFileList;
+                this.trashResults = allFileList.trashFileList;
                 this.totalFileSize = _totalFileSize;
                 this.readableTotalFileSize = sharedService.value.bytesToSize(_totalFileSize);
                 this.deleteItemCount = 0;

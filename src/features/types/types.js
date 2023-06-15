@@ -1,4 +1,4 @@
-
+// @flow
 export type TypeFileOne = {
     fileName: string,
     createdDt: string,
