@@ -54,7 +54,6 @@ export const useFileService = createGlobalObservable(() => {
          * @returns {Promise<void>}
          */
         async updateFileOne(data) {
-            this.loading = true;
             let results = await axiosInstance.put(END_POINT_PREFIX + "/file/" + this.currentFileId,
                 data
             );
@@ -63,25 +62,16 @@ export const useFileService = createGlobalObservable(() => {
             } else {
                 alert("updateFileOne failed");
             }
-            setTimeout(() => {
-                this.loading = false;
-            }, 1);
         },
         async deleteFileOne(pFileId) {
             try {
-                this.loading = true;
                 let results = await axiosInstance.delete(END_POINT_PREFIX + "/file/" + pFileId);
-
                 if (results.data.statusCode === 200) {
                     await this.getFileList();
                 } else {
                     alert("deleteFileOne failed");
                 }
-                setTimeout(() => {
-                    this.loading = false;
-                }, 1);
             } catch (e) {
-                this.loading = false;
                 throw new Error(e);
             }
         },

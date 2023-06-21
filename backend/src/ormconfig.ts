@@ -1,8 +1,9 @@
 export const connOptions ={
     type: 'mysql',
-    host: 'localhost',
+    host: '34.22.64.153',
+    //host: 'localhost',
     port: 3306,
-    username: "admin",
+    username: "root",
     password: "1114",
     database: 'test002',
     synchronize: true,

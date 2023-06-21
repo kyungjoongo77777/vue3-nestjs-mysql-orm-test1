@@ -9,9 +9,11 @@ import { ServeStaticModule } from "@nestjs/serve-static/dist/serve-static.module
 import { join } from "path";
 import { FILE_UPLOAD_DIR } from "./constants/backend.constants";
 import { AuthModule } from "./auth/auth.module";
+import {ConfigModule} from "@nestjs/config";
 
 @Module({
     imports: [
+        ConfigModule.forRoot(),
         // @ts-ignore
         TypeOrmModule.forRoot(connOptions),
         UserModule,

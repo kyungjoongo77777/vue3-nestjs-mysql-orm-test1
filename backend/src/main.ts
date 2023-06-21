@@ -3,7 +3,7 @@ import { AppModule } from "./app.module";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import * as bodyParser from "body-parser";
 
-const PORT = 8000;
+const PORT = process.env.PORT;
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule, {
