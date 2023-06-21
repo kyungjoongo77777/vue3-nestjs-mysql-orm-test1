@@ -7,6 +7,9 @@
     "license": "MIT",
     "scripts": {
         "build": "nest build",
+        "gcloud run deploy": " gcloud run deploy",
+        "docker_build": " docker build -t backend .",
+        "docker_run": "docker run -i -t -p 8000:8000 backend",
         "start": "nest start",
         "server-start:dev": "nest start --watch",
         "server-start:debug": "nest start --debug --watch",
