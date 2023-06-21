@@ -5,7 +5,7 @@
         <a-image
             :width="700"
             :height="500"
-            src="https://db.kookje.co.kr/news2000/photo/2022/0713/L20220713.22001003399i1.jpg"
+            src="https://as2.ftcdn.net/v2/jpg/01/05/90/77/1000_F_105907729_4RzHYsHJ2UFt5koUI19fc6VzyFPEjeXe.jpg"
         />
     </div>
     <Footer />
