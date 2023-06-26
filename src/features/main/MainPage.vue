@@ -14,7 +14,15 @@
 import { useRouter } from "vue-router";
 import CommonHeader from "@/components/CommonHeader.vue";
 import Footer from "@/components/Footer.vue";
+import { onMounted } from "vue";
+import { useFileService } from "@/features/file/FileService";
 
 const router = useRouter();
+
+const fileService = useFileService()
+
+onMounted(async () => {
+    await fileService.value.getIndex();
+});
 
 </script>

@@ -110,7 +110,6 @@ const router = useRouter();
 const fileService = useFileService();
 
 onMounted(async () => {
-
     await fileService.value.getFileList();
 });
 

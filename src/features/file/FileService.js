@@ -1,10 +1,10 @@
 // @flow
-import {createGlobalObservable, useLocalObservable} from "mobx-vue-lite";
-import {useUserService} from "@/features/user/UserService";
-import {useSharedService} from "@/features/common/SharedService";
-import {END_POINT_PREFIX} from "@/constants/constants";
-import {useToast} from "vue-toast-notification";
-import {axiosInstance} from "@/utils/utils";
+import { createGlobalObservable, useLocalObservable } from "mobx-vue-lite";
+import { useUserService } from "@/features/user/UserService";
+import { useSharedService } from "@/features/common/SharedService";
+import { END_POINT_PREFIX } from "@/constants/constants";
+import { useToast } from "vue-toast-notification";
+import { axiosInstance } from "@/utils/utils";
 
 export const useFileService = createGlobalObservable(() => {
     return useLocalObservable(() => ({
@@ -30,11 +30,17 @@ export const useFileService = createGlobalObservable(() => {
          * @todo: fetch all file(or folder) list
          * @returns {Promise<void>}
          */
-        async getFileList() {
+        async getIndex () {
+            const sharedService = useSharedService();
+            const userService = useUserService();
+            let results = await axiosInstance.get(`${END_POINT_PREFIX}/`)
+
+        },
+        async getFileList () {
             const sharedService = useSharedService();
             const userService = useUserService();
 
-            let results = await axiosInstance.get(`${END_POINT_PREFIX}/file/` + localStorage.getItem('userId'));
+            let results = await axiosInstance.get(`${END_POINT_PREFIX}/file/` + localStorage.getItem("userId"));
             if (results.data.statusCode === 200) {
                 let allFileList = results.data.data;
                 let _totalFileSize = 0;
@@ -53,8 +59,8 @@ export const useFileService = createGlobalObservable(() => {
          * @param data
          * @returns {Promise<void>}
          */
-        async updateFileOne(data) {
-            this.loading=true
+        async updateFileOne (data) {
+            this.loading = true;
             let results = await axiosInstance.put(END_POINT_PREFIX + "/file/" + this.currentFileId,
                 data
             );
@@ -63,9 +69,9 @@ export const useFileService = createGlobalObservable(() => {
             } else {
                 alert("updateFileOne failed");
             }
-            this.loading= false
+            this.loading = false;
         },
-        async deleteFileOne(pFileId) {
+        async deleteFileOne (pFileId) {
             try {
                 let results = await axiosInstance.delete(END_POINT_PREFIX + "/file/" + pFileId);
                 if (results.data.statusCode === 200) {
@@ -82,7 +88,7 @@ export const useFileService = createGlobalObservable(() => {
          * @param formData
          * @returns {Promise<void>}
          */
-        async insertFiles(formData) {
+        async insertFiles (formData) {
             const sharedService = useSharedService();
             try {
                 let result = await axiosInstance({
@@ -110,7 +116,7 @@ export const useFileService = createGlobalObservable(() => {
          * @todo: 파일을 다른 member에개 share
          * @returns {Promise<boolean>}
          */
-        async shareFileOne() {
+        async shareFileOne () {
 
             const userService = useUserService();
             const sharedService = useSharedService();
@@ -153,7 +159,7 @@ export const useFileService = createGlobalObservable(() => {
          * @param folderName
          * @returns {Promise<void>}
          */
-        async insertFolderOne(folderName) {
+        async insertFolderOne (folderName) {
             const sharedService = useSharedService();
             let data = {
                 fileName: "",
@@ -183,10 +189,10 @@ export const useFileService = createGlobalObservable(() => {
          * @param myArray
          * @returns {boolean}
          */
-        checkIfArrayIsUnique(myArray) {
+        checkIfArrayIsUnique (myArray) {
             return myArray.length === new Set(myArray).size;
         },
-        showToast(msg, duration = 1500) {
+        showToast (msg, duration = 1500) {
             const toast = useToast();
             toast.warning(msg, {
                 duration: duration,
@@ -198,7 +204,7 @@ export const useFileService = createGlobalObservable(() => {
          * todo: 삭제 confirm and delete 로직
          * @returns {Promise<void>}
          */
-        async handleDeleteConfirm() {
+        async handleDeleteConfirm () {
             if (this.tabIndex === 0 || this.tabIndex === 1) {
                 //todo: 휴지통에 이동하는 로직
                 await this.updateFileOne({
